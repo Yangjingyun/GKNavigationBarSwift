@@ -5,7 +5,6 @@
 //  Created by QuintGao on 2020/3/24.
 //  Copyright © 2020 QuintGao. All rights reserved.
 //
-
 import UIKit
 
 /// 屏幕宽高
@@ -13,7 +12,19 @@ public let GK_SCREEN_WIDTH = UIScreen.main.bounds.size.width
 public let GK_SCREEN_HEIGHT = UIScreen.main.bounds.size.height
 
 /// 是否是刘海屏
-public let GK_NOTCHED_SCREEN: Bool = GKConfigure.gk_isNotchedScreen()
+public let GK_NOTCHED_SCREEN: Bool = (
+(UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.currentMode)) ? __CGSizeEqualToSize(CGSize(width: 375, height:812), UIScreen.main.bounds.size) : false) ||
+(UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.currentMode)) ? __CGSizeEqualToSize(CGSize(width: 812, height:375), UIScreen.main.bounds.size) : false) ||
+(UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.currentMode)) ? __CGSizeEqualToSize(CGSize(width: 414, height:896), UIScreen.main.bounds.size) : false) ||
+(UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.currentMode)) ? __CGSizeEqualToSize(CGSize(width: 896, height:414), UIScreen.main.bounds.size) : false))
+
+//状态类高度
+var statusH:CGFloat {
+    if #available(iOS 14, *) {
+        return 48
+    }
+    return 44
+}
 
 // 是否是iPad
 public let GK_IS_IPAD: Bool = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
@@ -22,7 +33,7 @@ public let GK_SAFEAREA_TOP: CGFloat = GK_NOTCHED_SCREEN ? 24.0 : 0.0
 public let GK_SAFEAREA_BTM: CGFloat = GK_NOTCHED_SCREEN ? 34.0 : 0.0
 
 /// 状态栏高度
-public let GK_STATUSBAR_HEIGHT: CGFloat = GK_NOTCHED_SCREEN ? 44.0 : 20.0
+public let GK_STATUSBAR_HEIGHT: CGFloat = GK_NOTCHED_SCREEN ? statusH : 20.0
 
 /// 导航栏高度
 public let GK_NAVBAR_HEIGHT: CGFloat = 44.0
